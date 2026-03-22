@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: chinook-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chinook
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "chinook"]
+      interval: 5s
+      timeout: 5d
+      retries: 20
+
+volumes:
+  postgres_data:
