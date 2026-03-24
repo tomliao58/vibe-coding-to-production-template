@@ -42,3 +42,9 @@ indent_size = 4
 
 [*.md]
 trim_trailing_whitespace = false
+
+M2 verification
+- GET /health
+- GET /api/artists?limit=5
+- GET /api/albums/1
+- GET /api/tracks/search?q=love&limit=5
