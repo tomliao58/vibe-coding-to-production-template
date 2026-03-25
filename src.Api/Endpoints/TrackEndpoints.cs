@@ -6,7 +6,7 @@ public static class TrackEndpoints
 {
     public static IEndpointRouteBuilder MapTrackEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/tracks");
+        var group = app.MapGroup("/api/tracks").WithTags("Tracks");
 
         group.MapGet("/search", async(
             string? q,
@@ -26,7 +26,8 @@ public static class TrackEndpoints
             var result = await queries.SearchTracksAsync(q.Trim(), safeLimit, cancellationToken);
             return Results.Ok(result);
         
-        });
+        })
+        .WithName("SearchTracks");
 
         return app;
     }

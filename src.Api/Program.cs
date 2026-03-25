@@ -1,5 +1,5 @@
 // using Npgsql;
-// using Scalar.AspNetCore;
+using Scalar.AspNetCore;
 using src.Api.Data;
 using src.Api.Endpoints;
 using src.Api.Services;
@@ -19,6 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Services
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
+
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 builder.Services.AddScoped<ICatalogQueries, CatalogQueries>();
 
@@ -48,6 +50,13 @@ var app = builder.Build();
 //     });
 // });
 
+// OpenAPI + Scalar
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+}
+
 // Existing health endpint
 app.MapGet("/health", async(IDbConnectionFactory connectionFactory, CancellationToken cancellationToken) =>
 {
@@ -60,7 +69,8 @@ app.MapGet("/health", async(IDbConnectionFactory connectionFactory, Cancellation
     {
         return Results.Json(new {api = "ok", db = "fail"}, statusCode: 503);
     }
-});
+})
+.WithTags("System");
 
 // M2 endpoints
 app.MapArtistEndpoints();

@@ -6,7 +6,7 @@ public static class ArtistEndpoints
 {
     public static IEndpointRouteBuilder MapArtistEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/artists");
+        var group = app.MapGroup("/api/artists").WithTags("Artists");
 
         group.MapGet("/", async(
             int? limit, 
@@ -16,7 +16,8 @@ public static class ArtistEndpoints
             var safeLimit = Math.Clamp(limit ?? 20, 1, 100);
             var result = await queries.GetArtistsAsync(safeLimit, cancellationToken);
             return Results.Ok(result);
-        });
+        })
+        .WithName("GetArtists");
 
         return app;
     }

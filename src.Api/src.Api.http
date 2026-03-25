@@ -1,0 +1,16 @@
+@host = http://localhost:5007
+
+### Health
+GET {{host}}/health
+
+### Get artists
+GET {{host}}/api/artists?limit=5
+
+### Get album by id
+GET {{host}}/api/album/1
+
+### Search tracks
+GET {{host}}/api/tracks/search?q=love&limit=5
+
+### OpenAPI JSON
+GET {{host}}/openapi/v1.json
